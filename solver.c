@@ -67,14 +67,10 @@ bool valid(int num, int pos[2], int bo[9][9])
 
     int box[2] = {pos[0]/3, pos[1]/3};  //checks box the item is in for valid 
     
-    for(int i = box[0]*3; i < (box[0]*3)+3;i++)
+    for(int i = box[0]*3; i < (box[0]*3)+3;i++)  //checks each row in the box
     {
-        printf("%d", box[0]*3);
-        printf("%d", i);
-        for (int j = box[1]*3; j < (box[1]*3)+3; j++)
+        for (int j = box[1]*3; j < (box[1]*3)+3; j++)  //checks columns in the box
         {
-            printf("%d", box[1]*3);
-            printf("%d", j);
             if (bo[i][j] == num)
             {
                 return false;
