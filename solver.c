@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+
+
+int count;
 int main(void)
 {
     int board[9][9] = {{7,3,9,0,0,0,6,0,4},
@@ -36,6 +39,9 @@ int main(void)
 
 bool solver(int bo[9][9])
 {
+    printf("%d", count);        //just counting 
+    count++;
+
     int find_empty_col(int bo[9][9]);
     int find_empty_row(int bo[9][9]);           //declaring functions used in this function
     void print_board(int bo[9][9]);
@@ -63,32 +69,22 @@ bool solver(int bo[9][9])
         if (valid(i, found, bo) == true )
         {
             bo[found[0]][found[1]] = i;
+            printf("\n found %d at %d %d \n",i,row,col);
+            printf("%d \n", count);
+            if (solver(bo) == true)
+            {
+                print_board(bo);
+                return true;
+            }
+            else
+            {
+                printf(" \n backtracking \n");
+                bo[found[0]][found[1]] = 0;
+                
+            }
         }
-        bool tester = true;
-        solver(bo);
-        if (tester == true)
-        {
-            print_board(bo);
-            return true;
-        }
-        bo[found[0]][found[1]] = 0;
-        
     }
-    /*int number;
-   
-    printf("Enter an integer: ");  
-    
-    // reads and stores input
-    scanf("%d", &number);
-
-    // displays output
-    printf("You entered: %d", number);
-    if(number ==0){
-        solver(bo);
-    }
-    */
-    return true;
-
+    return false;  
 }
 
 int find_empty_row(int bo[9][9])
@@ -162,6 +158,7 @@ bool valid(int num, int pos[2], int bo[9][9])
 
 void print_board(int bo[9][9])
 {
+    printf("\n");
     for (int i=0; i<=8; i++) // Looping through each line(row(vertically down the board))
     {
         for (int j=0; j<=8; j++) // Looping through each column(horizontally accross the board)
