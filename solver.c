@@ -3,53 +3,133 @@
 
 int main(void)
 {
-    int board[9][9] = {{2,8,9,0,3,0,0,1,4},
-    {0,0,0,5,0,6,7,9,2},
-    {5,0,0,0,0,9,0,0,0},
-    {0,0,0,0,0,2,0,0,0},
-    {4,0,5,0,6,0,8,0,3},
-    {0,0,0,3,0,0,0,0,0},
-    {0,0,0,2,0,0,0,0,1},
-    {3,4,6,0,0,1,0,0,0},
-    {8,1,0,0,4,0,3,7,9}};
+    int board[9][9] = {{7,3,9,0,0,0,6,0,4},
+    {2,6,8,9,1,0,7,0,0},
+    {4,5,1,0,0,0,0,0,9},
+    {1,9,0,0,5,0,0,4,0},
+    {0,4,0,1,0,3,0,6,0},
+    {0,7,0,0,6,0,0,9,2},
+    {3,0,0,0,0,0,0,2,6},
+    {0,0,7,0,4,6,3,5,0},
+    {6,0,5,0,0,0,4,0,1}};
 
 
     bool valid(int num, int pos[2], int bo[9][9]);
     void print_board(int bo[9][9]);
+    bool solver(int bo[9][9]);
 
     int pos_test[2] = {0,3};
     print_board(board);
-    bool result = valid(6, pos_test, board );
-    if (result == true)
-    {
-        printf("valid");
-    }
-    else if(result == false)
-    {
-        printf("false");
-    }
-    else 
-    {
-        printf("this seems to have not worked");
-    }
-
+    printf("\n");
+    printf("________________________ \n");
+    solver(board);
+    print_board(board);
+    /*printf("this is durnig second call... \n");
+    solver(board);
+    printf("this is after second call... \n");
+    print_board(board);
+    */
     return 0;
 }
 
 
 
-bool solver(){
+bool solver(int bo[9][9])
+{
+    int find_empty_col(int bo[9][9]);
+    int find_empty_row(int bo[9][9]);           //declaring functions used in this function
+    void print_board(int bo[9][9]);
+    bool valid(int num, int pos[2], int bo[9][9]);
 
-return false;
+    printf("\n");
+    printf("___________________________");
+    printf("\n");
+    
+    print_board(bo);
+
+    if (find_empty_row(bo) == 100)
+    {
+        print_board(bo);
+        return true;
+    }
+
+    int row = find_empty_row(bo);
+    int col = find_empty_col(bo);
+
+    int found[2] = {row, col};
+
+    for (int i = 1; i<=9; i++)
+    {
+        if (valid(i, found, bo) == true )
+        {
+            bo[found[0]][found[1]] = i;
+        }
+        bool tester = true;
+        solver(bo);
+        if (tester == true)
+        {
+            print_board(bo);
+            return true;
+        }
+        bo[found[0]][found[1]] = 0;
+        
+    }
+    /*int number;
+   
+    printf("Enter an integer: ");  
+    
+    // reads and stores input
+    scanf("%d", &number);
+
+    // displays output
+    printf("You entered: %d", number);
+    if(number ==0){
+        solver(bo);
+    }
+    */
+    return true;
+
+}
+
+int find_empty_row(int bo[9][9])
+{
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (bo[i][j] == 0)
+            {
+                return i;
+            }
+            
+        }
+
+    }
+    return 100;
+}
+
+int find_empty_col(int bo[9][9])
+{
+    for (int i = 0; i < 9; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            if (bo[i][j] == 0)
+            {
+                return j;
+            }
+        }
+
+    }
+    return 100;
 }
 
 bool valid(int num, int pos[2], int bo[9][9])
 {
-    printf("validating...");
     int i; 
     int j;
 
-    for (i=0; i>=8; i++)
+    for (i=0; i<=8; i++)
     {
         if (bo[pos[0]][i] == num) //horzontal checking
         {
@@ -57,7 +137,7 @@ bool valid(int num, int pos[2], int bo[9][9])
         }
     }
     
-    for(j=0; j>=8; j++)
+    for(j=0; j<=8; j++)
     {
         if (bo[j][pos[1]] == num) //vertical checking
         {
